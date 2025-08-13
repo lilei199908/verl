@@ -50,7 +50,7 @@ if __name__ == "__main__":
     # add a row to each data item that represents a unique id
     def make_map_fn(split):
         def process_fn(example, idx):
-            question_raw = example.pop("question")
+            question_raw = example.pop("problem")
 
             question = question_raw + " " + instruction_following
 
