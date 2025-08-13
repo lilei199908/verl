@@ -34,7 +34,7 @@ def extract_solution(solution_str):
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
-    parser.add_argument("--local_dir", default="~/data1/lilei/aime2024")
+    parser.add_argument("--local_dir", default="/data1/lilei/aime2024")
     parser.add_argument("--hdfs_dir", default=None)
 
     args = parser.parse_args()
