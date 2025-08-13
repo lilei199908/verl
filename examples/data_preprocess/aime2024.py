@@ -41,7 +41,7 @@ if __name__ == "__main__":
 
     data_source = "HuggingFaceH4/aime_2024"
 
-    dataset = datasets.load_dataset(data_source, "main")
+    dataset = datasets.load_dataset(data_source, "default")
 
     train_dataset = dataset["train"]
 
