@@ -1,7 +1,7 @@
 set -x
 
 HF_MODEL_PATH=/data1/lilei/Qwen3-30B-A3B
-DIST_CKPT_PATH=/data1/lilei/Qwen3-30B-A3B_torch_dist
+DIST_CKPT_PATH=/data1/lilei/Qwen3-30B-A3B_torch_dist/release
 
 #python scripts/converter_hf_to_mcore.py --hf_model_path $HF_MODEL_PATH --output_path $DIST_CKPT_PATH
 
