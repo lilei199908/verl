@@ -38,6 +38,7 @@ python3 -m verl.trainer.main_ppo --config-path=config \
     actor_rollout_ref.rollout.gpu_memory_utilization=0.5 \
     actor_rollout_ref.rollout.n=5 \
     actor_rollout_ref.rollout.top_k=1 \
+    actor_rollout_ref.rollout.enforce_eager=True \
     actor_rollout_ref.ref.log_prob_micro_batch_size_per_gpu=40 \
     actor_rollout_ref.ref.megatron.pipeline_model_parallel_size=1 \
     actor_rollout_ref.ref.megatron.tensor_model_parallel_size=4 \
