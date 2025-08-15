@@ -175,7 +175,8 @@ class MegatronSGLangShardingManager(BaseShardingManager):
                 self.transformer_config,
                 self.layer_name_mapping,
             )
-        await self.update_weights(per_tensor_param)
+        with simple_timer("update_weights", self.timing):
+            await self.update_weights(per_tensor_param)
         if self.offload_param:
             offload_megatron_model_to_cpu(self.actor_module)
         get_torch_device().empty_cache()
