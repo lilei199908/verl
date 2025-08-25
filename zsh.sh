@@ -37,8 +37,8 @@ sudo docker run --gpus all \
   --ulimit stack=67108864 \
   -v /data1:/data1 \
   --network host \
-  --name verll \
-  -it hebiaobuaa/verl:app-verl0.5-sglang0.4.9.post6-mcore0.12.2-te2.2
+  --name slimev \
+  -it nvcr.io/nvidia/pytorch:25.02-py3
 
 zhuzilin/slime:latest
 
