@@ -982,7 +982,11 @@ class RayPPOTrainer:
                             gen_batch_output = self.async_rollout_manager.generate_sequences(gen_batch)
                         timing_raw.update(gen_batch_output.meta_info["timing"])
                         gen_batch_output.meta_info.pop("timing", None)
-
+                    #
+                    self.actor_rollout_wg.dump_memory_snapshot(
+                        tag=f"post_update_step{self.global_steps}", sub_dir=f"step{self.global_steps}_after_gen"
+                    )
+                    #
                     if self.config.algorithm.adv_estimator == AdvantageEstimator.REMAX:
                         if self.reward_fn is None:
                             raise ValueError("A reward_fn is required for REMAX advantage estimation.")
@@ -1117,13 +1121,7 @@ class RayPPOTrainer:
                             actor_output_metrics = reduce_metrics(actor_output.meta_info["metrics"])
                             metrics.update(actor_output_metrics)
                     except RuntimeError as e:
-                        print("👉 CUDA OOM 发生！正在保存内存快照...")
-                        #
-                        self.actor_rollout_wg.dump_memory_snapshot(
-                            tag=f"post_update_step{self.global_steps}", sub_dir=f"step{self.global_steps}_err"
-                        )
-                        #
-                        raise e
+
 
                     # Log rollout generations if enabled
                     rollout_data_dir = self.config.trainer.get("rollout_data_dir", None)
