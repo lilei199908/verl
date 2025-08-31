@@ -2,7 +2,7 @@ set -x
 
 HF_MODEL_PATH=/data1/lilei/Qwen3-30B-A3B
 DIST_CKPT_PATH=/data1/lilei/Qwen3-30B-A3B_torch_dist_verl
-
+VERL_LOGGING_LEVEL=DEBUG
 #python scripts/converter_hf_to_mcore.py --hf_model_path /data1/lilei/Qwen3-30B-A3B --output_path /data1/lilei/Qwen3-30B-A3B_torch_dist_verl
 
 export CUDA_DEVICE_MAX_CONNECTIONS=1 # For megatron communication/computation overlapping
