@@ -35,10 +35,11 @@ sudo docker run --gpus all \
   --ipc=host \
   --ulimit memlock=-1 \
   --ulimit stack=67108864 \
+  --cap-add=SYS_PTRACE \
   -v /data1:/data1 \
   --network host \
-  --name slimev \
-  -it nvcr.io/nvidia/pytorch:25.02-py3
+  --name verll \
+  -it hebiaobuaa/verl:app-verl0.5-sglang0.4.9.post6-mcore0.12.2-te2.2
 
 zhuzilin/slime:latest
 

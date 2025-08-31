@@ -1106,7 +1106,9 @@ class RayPPOTrainer:
                             critic_output = self.critic_wg.update_critic(batch)
                         critic_output_metrics = reduce_metrics(critic_output.meta_info["metrics"])
                         metrics.update(critic_output_metrics)
-
+                    self.actor_rollout_wg.dump_memory_snapshot(
+                        tag=f"post_update_step{self.global_steps}", sub_dir=f"step{self.global_steps}"
+                    )
                     # implement critic warmup
                     if self.config.trainer.critic_warmup <= self.global_steps:
                         # update actor
