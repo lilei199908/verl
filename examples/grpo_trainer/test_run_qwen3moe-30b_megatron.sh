@@ -59,6 +59,7 @@ python3 -m verl.trainer.main_ppo --config-path=config \
     trainer.save_freq=20 \
     trainer.test_freq=5 \
     trainer.total_epochs=15 $@ \
+    trainer.val_before_train=False \
     global_profiler.tool=torch_memory \
     global_profiler.save_path=/data1/lilei/once \
     global_profiler.global_tool_config.torch_memory.trace_alloc_max_entries=1000000 \
