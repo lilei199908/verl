@@ -63,4 +63,5 @@ python3 -m verl.trainer.main_ppo --config-path=config \
     global_profiler.tool=torch_memory \
     global_profiler.save_path=/data1/lilei/once \
     global_profiler.global_tool_config.torch_memory.trace_alloc_max_entries=1000000 \
-    global_profiler.global_tool_config.torch_memory.stack_depth=32
+    global_profiler.global_tool_config.torch_memory.stack_depth=32 \
+    +actor_rollout_ref.actor.optim.override_optimizer_config.optimizer_cpu_offload=True \
