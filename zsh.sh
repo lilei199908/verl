@@ -38,8 +38,8 @@ sudo docker run --gpus all \
   --cap-add=SYS_PTRACE \
   -v /data1:/data1 \
   --network host \
-  --name verll \
-  -it hebiaobuaa/verl:app-verl0.5-sglang0.4.9.post6-mcore0.12.2-te2.2
+  --name slime \
+  -it zhuzilin/slime:latest
 
 zhuzilin/slime:latest
 
