@@ -6,6 +6,7 @@ VERL_LOGGING_LEVEL=DEBUG
 #python scripts/converter_hf_to_mcore.py --hf_model_path /data1/lilei/Qwen3-30B-A3B --output_path /data1/lilei/Qwen3-30B-A3B_torch_dist_verl
 
 export CUDA_DEVICE_MAX_CONNECTIONS=1 # For megatron communication/computation overlapping
+optimizer_offload_fraction=${OFFLOAD_FRACTION:-1.}
 
 python3 -m verl.trainer.main_ppo --config-path=config \
     --config-name='ppo_megatron_trainer.yaml'\
@@ -65,3 +66,6 @@ python3 -m verl.trainer.main_ppo --config-path=config \
     global_profiler.global_tool_config.torch_memory.trace_alloc_max_entries=1000000 \
     global_profiler.global_tool_config.torch_memory.stack_depth=32 \
     +actor_rollout_ref.actor.optim.override_optimizer_config.optimizer_cpu_offload=True \
+    +actor_rollout_ref.actor.optim.override_optimizer_config.optimizer_offload_fraction=${optimizer_offload_fraction} \
+    +actor_rollout_ref.actor.optim.override_optimizer_config.overlap_cpu_optimizer_d2h_h2d=True \
+    +actor_rollout_ref.actor.optim.override_optimizer_config.use_precision_aware_optimizer=True
