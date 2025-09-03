@@ -48,6 +48,7 @@ python3 -m verl.trainer.main_ppo --config-path=config \
     actor_rollout_ref.ref.megatron.use_dist_checkpointing=True \
     actor_rollout_ref.ref.megatron.dist_checkpointing_path=$DIST_CKPT_PATH \
     actor_rollout_ref.ref.megatron.param_offload=True \
+    actor_rollout_ref.ref.log_prob_micro_batch_size=240 \
     algorithm.use_kl_in_reward=False \
     trainer.critic_warmup=0 \
     trainer.logger='["console"]' \
