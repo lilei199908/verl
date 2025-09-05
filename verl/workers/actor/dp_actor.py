@@ -436,13 +436,14 @@ class DataParallelPPOActor(BasePPOActor):
                     selected_logits = torch.gather(logits, dim=-1, index=merged_indices)
 
                     import torch.nn.functional as F
-                    loss = F.kl_div(selected_logits, merged_logits, reduction="batchmean")
-                    loss1 = F.kl_div(selected_logits, merged_logits, reduction="none")
+                    loss = F.kl_div(selected_logits, merged_logits, reduction="none")
+                    loss = loss.sum(dim=-1)
+                    loss = loss * response_mask
+                    # 最终 loss
+                    valid_tokens = response_mask.sum()
+                    loss = loss.sum() / valid_tokens if valid_tokens > 0 else 0.0
                     print("#"*10,loss)
 
-                    print(selected_logits[0,0])
-                    print(merged_logits[0,0])
-                    print("#"*10,loss1[0,0].sum())
                     if self.config.use_dynamic_bsz:
                         # relative to the dynamic bsz
                         loss = loss * loss_scale_factor
