@@ -436,8 +436,11 @@ class DataParallelPPOActor(BasePPOActor):
 
                     import torch.nn.functional as F
                     loss = F.kl_div(selected_logits, merged_logits, reduction="batchmean")
-                    breakpoint()
                     print("#"*10,loss)
+
+                    print(selected_logits[0,0])
+                    print(merged_logits[0,0])
+                    breakpoint()
 
                     if self.config.use_dynamic_bsz:
                         # relative to the dynamic bsz
