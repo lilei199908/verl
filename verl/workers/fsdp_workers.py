@@ -1013,9 +1013,9 @@ class ActorRolloutRefWorker(Worker, DistProfilerExtension):
         # perform recompute log_prob
         with self.ulysses_sharding_manager:
             with adapter_ctx:
-                student_index = self.actor.compute_student_index(data=data, calculate_entropy=True)
+                student_index = self.actor.compute_student_index(data=data, calculate_entropy=False)
             output = DataProto.from_dict(
-                tensors={"student_index": student_index},
+                tensors={"student_topk_index": student_index},
                 meta_info={"temperature": self.config.rollout.temperature},
             )
 
