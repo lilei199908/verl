@@ -1007,35 +1007,42 @@ def merge_teacher_student_indices_single(t_indices_list, s_indices_list, topk):
     print(t_indices_list)
     print('#'*100)
     print(s_indices_list)
-    for j in range(len(t_indices_list)):
-        t_indices = t_indices_list[j]
-        s_indices = s_indices_list[j] if s_indices_list is not None else []
-        set_t = set(t_indices)
-        set_s = set(s_indices)
-        n_overlap = len(set_t & set_s)
-        overlap_counts.append(n_overlap)
-        overlap_ratios.append(n_overlap / topk if topk else 0.0)
-        merged = []
-        t_ptr, s_ptr = 0, 0
-        seen = set()
-        while len(merged) < topk:
-            if t_ptr < len(t_indices):
-                t_idx = t_indices[t_ptr]
-                t_ptr += 1
-            else:
-                t_idx = None
-            if s_ptr < len(s_indices):
-                s_idx = s_indices[s_ptr]
-                s_ptr += 1
-            else:
-                s_idx = None
-            for idx in [t_idx, s_idx]:
-                if idx is not None and idx not in seen:
-                    merged.append(idx)
-                    seen.add(idx)
-                if len(merged) >= topk:
-                    break
-        merged_indices.append(merged[:topk])
+    for i in range(len(t_indices_list)):
+        merged_indice = []
+        overlap_count = []
+        overlap_ratio = []
+        for j in range(len(t_indices_list[i])):
+            t_indices = t_indices_list[i][j]
+            s_indices = s_indices_list[i][j] if s_indices_list is not None else []
+            set_t = set(t_indices)
+            set_s = set(s_indices)
+            n_overlap = len(set_t & set_s)
+            overlap_count.append(n_overlap)
+            overlap_ratio.append(n_overlap / topk if topk else 0.0)
+            merged = []
+            t_ptr, s_ptr = 0, 0
+            seen = set()
+            while len(merged) < topk:
+                if t_ptr < len(t_indices):
+                    t_idx = t_indices[t_ptr]
+                    t_ptr += 1
+                else:
+                    t_idx = None
+                if s_ptr < len(s_indices):
+                    s_idx = s_indices[s_ptr]
+                    s_ptr += 1
+                else:
+                    s_idx = None
+                for idx in [t_idx, s_idx]:
+                    if idx is not None and idx not in seen:
+                        merged.append(idx)
+                        seen.add(idx)
+                    if len(merged) >= topk:
+                        break
+            merged_indice.append(merged[:topk])
+        merged_indices.append(merged_indice)
+        overlap_counts.append(overlap_count)
+        overlap_ratios.append(overlap_ratio)
     avg_overlap_count = float(sum(overlap_counts)) / len(overlap_counts) if overlap_counts else 0.0
     avg_overlap_ratio = float(sum(overlap_ratios)) / len(overlap_ratios) if overlap_ratios else 0.0
     return merged_indices, avg_overlap_count, avg_overlap_ratio
