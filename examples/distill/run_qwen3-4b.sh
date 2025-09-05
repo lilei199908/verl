@@ -14,6 +14,7 @@ CUDA_VISIBLE_DEVICES=6,7 python3 -m verl.trainer.main_ppo \
     +actor_rollout_ref.teacher_model.path=/data1/lilei/Qwen3-30B-A3B \
     actor_rollout_ref.actor.optim.lr=1e-6 \
     actor_rollout_ref.model.use_remove_padding=True \
+    +actor_rollout_ref.actor.topk=256 \
     actor_rollout_ref.actor.ppo_mini_batch_size=30 \
     actor_rollout_ref.actor.ppo_micro_batch_size_per_gpu=15 \
     actor_rollout_ref.actor.use_kl_loss=True \
