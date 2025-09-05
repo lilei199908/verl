@@ -21,7 +21,7 @@ import logging
 import os
 
 import torch
-from torch import nn
+from torch import nn, dtype
 from torch.distributed.fsdp import FullyShardedDataParallel as FSDP
 
 import verl.utils.torch_functional as verl_F
@@ -665,7 +665,7 @@ class DataParallelPPOActor(BasePPOActor):
             bsz, length = student_topk_index.shape[:2]
 
             merged_indices, _ , _ = merge_teacher_student_indices_single(logits_topk_indices.tolist(), student_topk_index.tolist(), k)
-            merged_indices = torch.Tensor(merged_indices).to(student_topk_index.device)
+            merged_indices = torch.tensor(merged_indices, dtype=torch.int64).to(student_topk_index.device)
             merged_logits = torch.gather(logits, dim=-1, index=merged_indices)
 
             return merged_indices, merged_logits
