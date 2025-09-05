@@ -664,7 +664,7 @@ class DataParallelPPOActor(BasePPOActor):
 
             bsz, length = student_topk_index.shape[:2]
 
-            merged_indices = merge_teacher_student_indices_single(logits_topk_indices.tolist(), student_topk_index.tolist(), k)
+            merged_indices, _ , _ = merge_teacher_student_indices_single(logits_topk_indices.tolist(), student_topk_index.tolist(), k)
             merged_indices = torch.Tensor(merged_indices).to(student_topk_index.device)
             merged_logits = torch.gather(logits, dim=-1, index=merged_indices)
 
@@ -1041,6 +1041,5 @@ def merge_teacher_student_indices_single(t_indices_list, s_indices_list, topk):
         merged_indices.append(merged_indice)
         overlap_counts.append(overlap_count)
         overlap_ratios.append(overlap_ratio)
-    avg_overlap_count = float(sum(overlap_counts)) / len(overlap_counts) if overlap_counts else 0.0
-    avg_overlap_ratio = float(sum(overlap_ratios)) / len(overlap_ratios) if overlap_ratios else 0.0
-    return merged_indices, avg_overlap_count, avg_overlap_ratio
+
+    return merged_indices, overlap_counts, overlap_ratios
