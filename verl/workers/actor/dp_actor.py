@@ -431,7 +431,8 @@ class DataParallelPPOActor(BasePPOActor):
                     logits = self._forward_micro_batch_student(
                         model_inputs, temperature=temperature, calculate_entropy=calculate_entropy
                     )
-                    logits = torch.softmax(logits, dim=-1)
+                    from torch.nn import functional as F
+                    logits = F.log_softmax(logits, dim=-1)
                     selected_logits = torch.gather(logits, dim=-1, index=merged_indices)
 
                     import torch.nn.functional as F
@@ -658,8 +659,8 @@ class DataParallelPPOActor(BasePPOActor):
                             entropy = verl_F.entropy_from_logits(logits)  # (bsz, response_length)
                         else:
                             entropy = torch.utils.checkpoint.checkpoint(verl_F.entropy_from_logits, logits)
-
-            logits = torch.softmax(logits, dim=-1)
+            from torch.nn import functional as F
+            logits = F.softmax(logits, dim=-1)
             k = student_topk_index.shape[-1]
             _, logits_topk_indices = torch.topk(logits, k, dim=-1)  # [bsz, length, k]
 
