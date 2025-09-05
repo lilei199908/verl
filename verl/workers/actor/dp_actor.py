@@ -373,8 +373,8 @@ class DataParallelPPOActor(BasePPOActor):
             "input_ids",
             "attention_mask",
             "position_ids",
-            "old_log_probs",
-            "advantages",
+            "merged_indices",
+            "merged_logits"
         ]
         if self.config.use_kl_loss:
             select_keys.append("ref_log_prob")
