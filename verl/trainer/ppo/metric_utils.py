@@ -101,11 +101,11 @@ def compute_data_metrics(batch: DataProto, use_critic: bool = True) -> dict[str,
             - prompt_length/mean, max, min, clip_ratio: Statistics about prompt lengths
             - num_turns/mean, max, min: Statistics about the number of multi-turn conversations
     """
-    sequence_score = batch.batch["token_level_scores"].sum(-1)
-    sequence_reward = batch.batch["token_level_rewards"].sum(-1)
+    # sequence_score = batch.batch["token_level_scores"].sum(-1)
+    # sequence_reward = batch.batch["token_level_rewards"].sum(-1)
 
-    advantages = batch.batch["advantages"]
-    returns = batch.batch["returns"]
+    # advantages = batch.batch["advantages"]
+    # returns = batch.batch["returns"]
 
     max_response_length = batch.batch["responses"].shape[-1]
 
@@ -121,25 +121,25 @@ def compute_data_metrics(batch: DataProto, use_critic: bool = True) -> dict[str,
     aborted_mask = (response_length == 0).bool()
     non_aborted_mask = ~aborted_mask
 
-    non_aborted_sequence_score = sequence_score[non_aborted_mask]
-    non_aborted_sequence_reward = sequence_reward[non_aborted_mask]
+    # non_aborted_sequence_score = sequence_score[non_aborted_mask]
+    # non_aborted_sequence_reward = sequence_reward[non_aborted_mask]
 
-    score_mean = torch.mean(non_aborted_sequence_score).detach().item()
-    score_max = torch.max(non_aborted_sequence_score).detach().item()
-    score_min = torch.min(non_aborted_sequence_score).detach().item()
-
-    reward_mean = torch.mean(non_aborted_sequence_reward).detach().item()
-    reward_max = torch.max(non_aborted_sequence_reward).detach().item()
-    reward_min = torch.min(non_aborted_sequence_reward).detach().item()
-
-    valid_adv = torch.masked_select(advantages, response_mask)
-    valid_returns = torch.masked_select(returns, response_mask)
-
-    if use_critic:
-        values = batch.batch["values"]
-        valid_values = torch.masked_select(values, response_mask)
-        return_diff_var = torch.var(valid_returns - valid_values)
-        return_var = torch.var(valid_returns)
+    # score_mean = torch.mean(non_aborted_sequence_score).detach().item()
+    # score_max = torch.max(non_aborted_sequence_score).detach().item()
+    # score_min = torch.min(non_aborted_sequence_score).detach().item()
+    #
+    # reward_mean = torch.mean(non_aborted_sequence_reward).detach().item()
+    # reward_max = torch.max(non_aborted_sequence_reward).detach().item()
+    # reward_min = torch.min(non_aborted_sequence_reward).detach().item()
+    #
+    # valid_adv = torch.masked_select(advantages, response_mask)
+    # valid_returns = torch.masked_select(returns, response_mask)
+    #
+    # if use_critic:
+    #     values = batch.batch["values"]
+    #     valid_values = torch.masked_select(values, response_mask)
+    #     return_diff_var = torch.var(valid_returns - valid_values)
+    #     return_var = torch.var(valid_returns)
 
     # Aborted samples and non-aborted response length statistics
     # response_length_non_aborted/*: statistics computed on non-aborted samples only
@@ -157,34 +157,34 @@ def compute_data_metrics(batch: DataProto, use_critic: bool = True) -> dict[str,
         raise ValueError("All samples are aborted, this should not happen.")
 
     metrics = {
-        # score
-        "critic/score/mean": score_mean,
-        "critic/score/max": score_max,
-        "critic/score/min": score_min,
-        # reward
-        "critic/rewards/mean": reward_mean,
-        "critic/rewards/max": reward_max,
-        "critic/rewards/min": reward_min,
-        # adv
-        "critic/advantages/mean": torch.mean(valid_adv).detach().item(),
-        "critic/advantages/max": torch.max(valid_adv).detach().item(),
-        "critic/advantages/min": torch.min(valid_adv).detach().item(),
-        # returns
-        "critic/returns/mean": torch.mean(valid_returns).detach().item(),
-        "critic/returns/max": torch.max(valid_returns).detach().item(),
-        "critic/returns/min": torch.min(valid_returns).detach().item(),
-        **(
-            {
-                # values
-                "critic/values/mean": torch.mean(valid_values).detach().item(),
-                "critic/values/max": torch.max(valid_values).detach().item(),
-                "critic/values/min": torch.min(valid_values).detach().item(),
-                # vf explained var
-                "critic/vf_explained_var": (1.0 - return_diff_var / (return_var + 1e-5)).detach().item(),
-            }
-            if use_critic
-            else {}
-        ),
+        # # score
+        # "critic/score/mean": score_mean,
+        # "critic/score/max": score_max,
+        # "critic/score/min": score_min,
+        # # reward
+        # "critic/rewards/mean": reward_mean,
+        # "critic/rewards/max": reward_max,
+        # "critic/rewards/min": reward_min,
+        # # adv
+        # "critic/advantages/mean": torch.mean(valid_adv).detach().item(),
+        # "critic/advantages/max": torch.max(valid_adv).detach().item(),
+        # "critic/advantages/min": torch.min(valid_adv).detach().item(),
+        # # returns
+        # "critic/returns/mean": torch.mean(valid_returns).detach().item(),
+        # "critic/returns/max": torch.max(valid_returns).detach().item(),
+        # "critic/returns/min": torch.min(valid_returns).detach().item(),
+        # **(
+        #     {
+        #         # values
+        #         "critic/values/mean": torch.mean(valid_values).detach().item(),
+        #         "critic/values/max": torch.max(valid_values).detach().item(),
+        #         "critic/values/min": torch.min(valid_values).detach().item(),
+        #         # vf explained var
+        #         "critic/vf_explained_var": (1.0 - return_diff_var / (return_var + 1e-5)).detach().item(),
+        #     }
+        #     if use_critic
+        #     else {}
+        # ),
         # response length
         "response_length/mean": torch.mean(response_length).detach().item(),
         "response_length/max": torch.max(response_length).detach().item(),
