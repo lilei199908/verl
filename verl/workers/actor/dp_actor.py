@@ -434,10 +434,10 @@ class DataParallelPPOActor(BasePPOActor):
                     logits = torch.softmax(logits, dim=-1)
                     selected_logits = torch.gather(logits, dim=-1, index=merged_indices)
 
+                    import torch.nn.functional as F
+                    loss = F.kl_div(selected_logits, merged_logits, reduction="batchmean")
 
-                    loss = torch.kl_divergence(selected_logits, merged_logits)
-
-
+                    print("#"*10,loss)
 
                     if self.config.use_dynamic_bsz:
                         # relative to the dynamic bsz
