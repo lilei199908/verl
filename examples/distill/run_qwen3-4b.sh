@@ -1,7 +1,7 @@
 set -x
 export RAY_DEBUG="legacy"
 
-python3 -m verl.trainer.main_ppo \
+CUDA_VISIBLE_DEVICES=6,7 python3 -m verl.trainer.main_ppo \
     algorithm.adv_estimator=grpo \
     data.train_files=/data1/lilei/aime2024/train.parquet \
     data.val_files=/data1/lilei/aime2024/train.parquet \
