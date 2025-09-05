@@ -1,5 +1,5 @@
 set -x
-RAY_DEBUG="legacy"
+export RAY_DEBUG="legacy"
 
 python3 -m verl.trainer.main_ppo \
     algorithm.adv_estimator=grpo \
