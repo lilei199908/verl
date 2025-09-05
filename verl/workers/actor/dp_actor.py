@@ -1004,9 +1004,7 @@ def merge_teacher_student_indices_single(t_indices_list, s_indices_list, topk):
     merged_indices = []
     overlap_counts = []
     overlap_ratios = []
-    print(t_indices_list)
-    print('#'*100)
-    print(s_indices_list)
+    print(len(t_indices_list),len(t_indices_list[0]))
     for i in range(len(t_indices_list)):
         merged_indice = []
         overlap_count = []
