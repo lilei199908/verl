@@ -88,7 +88,7 @@ class Profiler:
     def check(self):
         return self.prof is not None and self.enable
 
-    def start(self):
+    def start(self, **kwargs):
         if self.check():
             print(f"[Profiler] started for rank {self.rank}")
             self.prof.start()
