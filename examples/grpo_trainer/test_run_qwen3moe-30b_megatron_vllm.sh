@@ -68,6 +68,6 @@ python3 -m verl.trainer.main_ppo --config-path=config \
     actor_rollout_ref.actor.profiler.enable=True \
     actor_rollout_ref.actor.profiler.save_path='\data1\lilei\once' \
     actor_rollout_ref.actor.profiler.tool_config.torch.step_start=0 \
-    actor_rollout_ref.actor.profiler.tool_config.torch.step_end = 2
+    actor_rollout_ref.actor.profiler.tool_config.torch.step_end=2
 
 
