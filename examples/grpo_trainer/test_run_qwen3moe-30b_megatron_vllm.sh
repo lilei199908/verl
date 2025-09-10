@@ -66,6 +66,6 @@ python3 -m verl.trainer.main_ppo --config-path=config \
     +actor_rollout_ref.actor.optim.override_optimizer_config.use_precision_aware_optimizer=True \
     global_profiler.tool=torch \
     global_profiler.save_path=/data1/lilei/once \
-    global_profiler.steps=[0,1]
+    global_profiler.steps='[0,1]'
 
 
